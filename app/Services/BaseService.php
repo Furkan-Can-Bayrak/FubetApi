@@ -6,35 +6,35 @@ use App\Repositories\BaseRepository;
 
 abstract class BaseService
 {
-    protected BaseRepository $repository;
+    protected BaseRepository $baseRepository;
 
-    public function __construct(BaseRepository $repository)
+    public function __construct(BaseRepository $baseRepository)
     {
-        $this->repository = $repository;
+        $this->baseRepository = $baseRepository;
     }
 
     public function all()
     {
-        return $this->repository->all();
+        return $this->baseRepository->all();
     }
 
     public function find(string $id)
     {
-        return $this->repository->find($id);
+        return $this->baseRepository->find($id);
     }
 
     public function create(array $data)
     {
-        return $this->repository->create($data);
+        return $this->baseRepository->create($data);
     }
 
     public function update(string $id, array $data)
     {
-        return $this->repository->update($id, $data);
+        return $this->baseRepository->update($id, $data);
     }
 
     public function delete(string $id): bool
     {
-        return $this->repository->delete($id);
+        return $this->baseRepository->delete($id);
     }
 }
