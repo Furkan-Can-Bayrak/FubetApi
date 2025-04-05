@@ -22,7 +22,14 @@ class User extends Model
 
     protected $fillable = [
         'name',
+        'surname',
+        'student_number',
+        'phone',
         'email',
+        'faculty',
+        'department',
+        'class',
+        'birth_date',
         'password',
     ];
 

@@ -22,9 +22,15 @@ abstract class UserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'     => 'required|string|max:255',
-            'email'    => 'required|email|unique:users,email',
-            'password' => 'required|string|confirmed',
+            'name' => 'required|string|max:255',
+            'surname' => 'required|string|max:50',
+            'student_number' => 'required|string|size:9',
+            'phone' => 'required|string|regex:/^05\d{9}$/',
+            'email' => 'required|email|ends_with:@firat.edu.tr|unique:users,email',
+            'faculty' => 'required|string|max:255',
+            'department' => 'required|string|max:255',
+            'class' => 'required|integer|between:1,6',
+            'birth_date' => 'required|date|before:today',
         ];
     }
 
@@ -36,9 +42,15 @@ abstract class UserRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'name' => 'Ad',
-            'email' => 'E-posta',
-            'password' => 'Şifre',
+            'name' => 'isim',
+            'surname' => 'soyisim',
+            'student_number' => 'öğrenci numarası',
+            'phone' => 'telefon numarası',
+            'email' => 'e-posta adresi',
+            'faculty' => 'fakülte',
+            'department' => 'bölüm',
+            'class' => 'sınıf',
+            'birth_date' => 'doğum tarihi',
         ];
     }
 

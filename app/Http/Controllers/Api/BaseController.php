@@ -45,7 +45,7 @@ abstract class BaseController extends Controller
 
     public function update($id)
     {
-        $validatedData = $this->resolveStoreRequest()->validated();
+        $validatedData = $this->resolveUpdateRequest()->validated();
 
         $updated = $this->baseService->update($id, $validatedData);
 
