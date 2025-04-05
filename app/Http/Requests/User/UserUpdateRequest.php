@@ -15,6 +15,7 @@ class UserUpdateRequest extends UserRequest
     {
         $rules = parent::rules();
         $rules['email'] = 'required|email|unique:users,email,' . $this->route('id');
+        $rules['student_number'] = 'required|string|size:9|unique:users,student_number' . $this->route('id');
         return $rules;
     }
 }

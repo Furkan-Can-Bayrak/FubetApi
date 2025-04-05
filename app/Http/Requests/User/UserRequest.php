@@ -24,7 +24,7 @@ abstract class UserRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'surname' => 'required|string|max:50',
-            'student_number' => 'required|string|size:9',
+            'student_number' => 'required|string|size:9|unique:users,student_number',
             'phone' => 'required|string|regex:/^05\d{9}$/',
             'email' => 'required|email|ends_with:@firat.edu.tr|unique:users,email',
             'faculty' => 'required|string|max:255',
