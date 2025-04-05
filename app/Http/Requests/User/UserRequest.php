@@ -53,22 +53,4 @@ abstract class UserRequest extends FormRequest
             'birth_date' => 'doğum tarihi',
         ];
     }
-
-    /**
-     * Override the validated method to process data after validation.
-     *
-     * @param  string|array|null  $key
-     * @param  mixed  $default
-     * @return array
-     */
-    public function validated($key = null, $default = null): array
-    {
-        $validatedData = parent::validated($key, $default);
-
-        if (isset($validatedData['password'])) {
-            $validatedData['password'] = bcrypt($validatedData['password']);
-        }
-
-        return $validatedData;
-    }
 }
