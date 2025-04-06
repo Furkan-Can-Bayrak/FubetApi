@@ -33,4 +33,20 @@ trait FileUploadable
         }
         return false;
     }
+
+    /**
+     * Dosyayı güncelleme (eskisini silip yenisini yükleme) işlemi.
+     *
+     * @param \Illuminate\Http\UploadedFile $file
+     * @param string $directory
+     * @param string $existingFilePath
+     * @return string
+     */
+    public function replaceFile($file, $directory, $existingFilePath)
+    {
+        $this->deleteFile($existingFilePath);
+
+        return $this->uploadFile($file, $directory);
+    }
+
 }

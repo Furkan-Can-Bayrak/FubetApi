@@ -56,8 +56,8 @@ class EventRequest extends FormRequest
     {
         $validatedData = parent::validated($key, $default);
 
-        if (isset($validatedData['file'])) {
-            $validatedData['file'] = $this->file('file');
+        if (isset($validatedData['photo'])) {
+            $validatedData['photo'] = $this->file('photo');
         }
 
         return $validatedData;
