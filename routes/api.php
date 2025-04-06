@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\Panel\EventController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -12,6 +13,17 @@ Route::get('/user', function (Request $request) {
 Route::group([
     'prefix' => 'users',
     'controller' => UserController::class
+], function () {
+    Route::get('/', 'index');
+    Route::get('/{id}', 'show');
+    Route::post('/', 'store');
+    Route::put('/{id}', 'update');
+    Route::delete('/{id}', 'destroy');
+});
+
+Route::group([
+    'prefix' => 'events',
+    'controller' => EventController::class
 ], function () {
     Route::get('/', 'index');
     Route::get('/{id}', 'show');
