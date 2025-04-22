@@ -16,4 +16,22 @@ class EventStoreRequest extends EventRequest
         $rules = parent::rules();
         return $rules;
     }
+
+    /**
+     * Override the validated method to process data after validation.
+     *
+     * @param  string|array|null  $key
+     * @param  mixed  $default
+     * @return array
+     */
+    public function validated($key = null, $default = null): array
+    {
+        $validatedData = parent::validated($key, $default);
+
+        if (isset($validatedData['photo'])) {
+            $validatedData['photo'] = $this->file('photo');
+        }
+
+        return $validatedData;
+    }
 }
