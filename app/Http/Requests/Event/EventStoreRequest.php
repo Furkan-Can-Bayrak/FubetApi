@@ -20,9 +20,9 @@ class EventStoreRequest extends EventRequest
 
     public function attributes(): array
     {
-        return [
-            'photo' => 'Etkinlik Fotoğrafı',
-        ];
+        $attributes = parent::attributes();
+        $attributes['photo'] = 'Etkinlik Fotoğrafı';
+        return $attributes;
     }
 
     /**
