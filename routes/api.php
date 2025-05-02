@@ -10,24 +10,9 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 
-Route::group([
-    'prefix' => 'users',
-    'controller' => UserController::class
-], function () {
-    Route::get('/', 'index');
-    Route::get('/{id}', 'show');
-    Route::post('/', 'store');
-    Route::put('/{id}', 'update');
-    Route::delete('/{id}', 'destroy');
-});
+Route::apiResource('users', UserController::class);
 
-Route::group([
-    'prefix' => 'events',
-    'controller' => EventController::class
-], function () {
-    Route::get('/', 'index');
-    Route::get('/{id}', 'show');
-    Route::post('/', 'store');
-    Route::put('/{id}', 'update');
-    Route::delete('/{id}', 'destroy');
+Route::controller(EventController::class)->prefix('events')->group(function () {
+    Route::post('uploadPhoto/{id}', 'uploadPhoto');
 });
+Route::apiResource('events', EventController::class);
