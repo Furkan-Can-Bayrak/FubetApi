@@ -21,33 +21,31 @@ class EventService extends BaseService
     public function create(array $data)
     {
         if (isset($data['photo'])) {
-            $data['photo'] = $this->uploadFile($data['photo'], 'events');
+            $data['photo'] = $this->createOrUpdateFile($data['photo'], 'events', $event->photo ?? '');
         }
 
         return $this->eventRepository->create($data);
     }
 
-    public function update(string $id,array $data)
+    public function update(string $id, array $data)
     {
-        if (isset($data['photo'])){
-            $event = $this->find($id);
-            /*if ($event && $event->photo){
-                $this->replaceFile($data['photo'],'events',$event->photo ?? '');
-            }else{
-                $this->uploadFile($data['photo'],'events');
-            }*/
-            $this->replaceFile($data['photo'],'events',$event->photo ?? '');
-
-        }
-        $this->eventRepository->update($id,$data);
+       return $this->eventRepository->update($id, $data);
     }
-    public function delete(string $id) : bool
+
+    public function delete(string $id): bool
     {
         $event = $this->find($id);
-        if ($event && $event->photo){
+        if ($event && $event->photo) {
             $this->deleteFile($event->photo);
         }
-     return $this->eventRepository->delete($id);
+        return $this->eventRepository->delete($id);
+    }
+
+    public function uploadPhoto($id, $photo)
+    {
+        $event = $this->find($id);
+        $data['photo'] = $this->createOrUpdateFile($photo, 'events', $event->photo ?? '');
+        return $this->update($id, $data);
     }
 
 }

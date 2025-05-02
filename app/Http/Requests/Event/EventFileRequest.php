@@ -4,8 +4,16 @@ namespace App\Http\Requests\Event;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class EventStoreRequest extends EventRequest
+class EventFileRequest extends FormRequest
 {
+    /**
+     * Determine if the user is authorized to make this request.
+     */
+    public function authorize(): bool
+    {
+        return true;
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -13,9 +21,9 @@ class EventStoreRequest extends EventRequest
      */
     public function rules(): array
     {
-        $rules = parent::rules();
-        $rules['photo'] = 'sometimes|file|mimes:jpeg,png,jpg|max:2048';
-        return $rules;
+        return [
+            'photo' => 'required|file|mimes:jpeg,png,jpg|max:2048',
+        ];
     }
 
     public function attributes(): array
@@ -25,13 +33,6 @@ class EventStoreRequest extends EventRequest
         ];
     }
 
-    /**
-     * Override the validated method to process data after validation.
-     *
-     * @param  string|array|null  $key
-     * @param  mixed  $default
-     * @return array
-     */
     public function validated($key = null, $default = null): array
     {
         $validatedData = parent::validated($key, $default);

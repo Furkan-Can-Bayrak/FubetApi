@@ -42,7 +42,7 @@ trait FileUploadable
      * @param string $existingFilePath
      * @return string
      */
-    public function replaceFile($file, $directory, $existingFilePath)
+    public function createOrUpdateFile($file, $directory, $existingFilePath)
     {
         $this->deleteFile($existingFilePath);
 
