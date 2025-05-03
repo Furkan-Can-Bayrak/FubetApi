@@ -55,4 +55,9 @@ class User extends Model
             'password' => 'hashed',
         ];
     }
+
+    public function eventApplications()
+    {
+        return $this->hasMany(EventApplication::class);
+    }
 }

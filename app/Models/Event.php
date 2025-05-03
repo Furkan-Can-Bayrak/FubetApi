@@ -19,6 +19,10 @@ class Event extends Model
     ];
 
 
+    public function userApplications()
+    {
+        return $this->hasMany(EventApplication::class);
+    }
 
 
 }

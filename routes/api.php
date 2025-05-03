@@ -10,9 +10,12 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 
-Route::apiResource('users', UserController::class);
+Route::group(['prefix' => 'panel'],function (){
+    Route::apiResource('users', UserController::class);
 
-Route::controller(EventController::class)->prefix('events')->group(function () {
-    Route::post('uploadPhoto/{id}', 'uploadPhoto');
+    Route::controller(EventController::class)->prefix('events')->group(function () {
+        Route::post('uploadPhoto/{id}', 'uploadPhoto');
+    });
+    Route::apiResource('events', EventController::class);
 });
-Route::apiResource('events', EventController::class);
+
