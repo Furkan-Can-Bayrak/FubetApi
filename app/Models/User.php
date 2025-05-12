@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use MongoDB\Laravel\Eloquent\Model; // MongoDB'yi kullanabilmek için
-
-class User extends Model
+use MongoDB\Laravel\Auth\User as Authenticatable;
+class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasApiTokens, HasFactory, Notifiable;
@@ -18,7 +18,7 @@ class User extends Model
      *
      * @var list<string>
      */
-
+    protected $connection = 'mongodb';
     protected $collection = 'users'; // MongoDB koleksiyonu
 
     protected $fillable = [
