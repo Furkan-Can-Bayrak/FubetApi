@@ -37,7 +37,7 @@ return [
 
     'guards' => [
         'api' => [
-            'driver' => 'sanctum',
+            'driver' => 'jwt',
             'provider' => 'users',
         ],
     ],
@@ -61,7 +61,7 @@ return [
 
     'providers' => [
         'users' => [
-            'driver' => 'mongodb',
+            'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
 

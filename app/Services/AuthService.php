@@ -6,6 +6,7 @@ use App\Repositories\AuthRepository;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Http\Request;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthService
 {
@@ -13,27 +14,26 @@ class AuthService
 
     public function login(array $credentials): array
     {
-        if (!Auth::attempt($credentials)) {
+        if (! $token = JWTAuth::attempt($credentials)) {
             throw ValidationException::withMessages([
                 'email' => ['E-mail veya şifre hatalı.'],
             ]);
         }
 
-        $user = Auth::user();
-        $token = $user->createToken('api-token')->plainTextToken;
+        $user = auth()->user();
 
         return [
             'token' => $token,
             'user' => $user,
         ];
     }
+
 
     public function register(array $data): array
     {
-
         $user = $this->repo->create($data);
 
-        $token = $user->createToken('api-token')->plainTextToken;
+        $token = JWTAuth::fromUser($user);
 
         return [
             'token' => $token,
@@ -41,8 +41,9 @@ class AuthService
         ];
     }
 
-    public function logout(Request $request): void
+
+    public function logout(): void
     {
-        $request->user()->currentAccessToken()->delete();
+        JWTAuth::invalidate(JWTAuth::getToken());
     }
 }

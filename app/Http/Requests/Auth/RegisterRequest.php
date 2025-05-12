@@ -32,6 +32,7 @@ class RegisterRequest extends FormRequest
             'department' => 'required|string|max:255',
             'class' => 'required|integer|between:1,6',
             'birth_date' => 'required|date|before:today',
+            'password' => 'required|string|confirmed',
         ];
     }
 
@@ -47,6 +48,7 @@ class RegisterRequest extends FormRequest
             'department' => 'bölüm',
             'class' => 'sınıf',
             'birth_date' => 'doğum tarihi',
+            'password' => 'şifre',
         ];
     }
 
