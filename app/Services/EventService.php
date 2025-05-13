@@ -5,7 +5,6 @@ namespace App\Services;
 
 use App\Repositories\EventRepository;
 use App\Traits\FileUploadable;
-use MongoDB\BSON\ObjectId;
 
 class EventService extends BaseService
 {
@@ -24,8 +23,6 @@ class EventService extends BaseService
         if (isset($data['photo'])) {
             $data['photo'] = $this->createOrUpdateFile($data['photo'], 'events', $event->photo ?? '');
         }
-
-        $data['category_id'] = new ObjectId($data['category_id']);
 
         return $this->eventRepository->create($data);
     }
