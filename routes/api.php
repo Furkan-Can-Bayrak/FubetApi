@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\Front\HomeController;
+use App\Http\Controllers\Api\Panel\CategoryController;
 use App\Http\Controllers\Api\Panel\EventController;
 use App\Http\Controllers\Api\Front\EventController as EventControllerFront;
 use App\Http\Controllers\Api\UserController;
@@ -30,5 +31,6 @@ Route::group(['prefix' => 'panel'],function (){
         Route::post('uploadPhoto/{id}', 'uploadPhoto');
     });
     Route::apiResource('events', EventController::class);
+    Route::apiResource('categories', CategoryController::class);
 });
 
