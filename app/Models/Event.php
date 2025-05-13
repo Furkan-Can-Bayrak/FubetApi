@@ -16,6 +16,7 @@ class Event extends Model
         'location',
         'published_at',
         'status', //0:pasif 1:aktif
+        'category_id',
     ];
 
 
@@ -24,5 +25,9 @@ class Event extends Model
         return $this->hasMany(EventApplication::class);
     }
 
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
 
 }
