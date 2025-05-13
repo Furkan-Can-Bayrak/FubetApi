@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\Front\HomeController;
 use App\Http\Controllers\Api\Panel\EventController;
+use App\Http\Controllers\Api\Front\EventController as EventControllerFront;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -14,7 +16,7 @@ Route::middleware('guest')->group(function () {
 });
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:api');
 
-
+Route::get('/paginateEvents', [EventControllerFront::class, 'paginateEvents']);
 
 Route::get('/user', function (Request $request) {
     return $request->user();

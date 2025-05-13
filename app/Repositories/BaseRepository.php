@@ -50,4 +50,15 @@ abstract class BaseRepository
 
         return $item->delete();
     }
+
+    public function paginate(int $perPage = 15, array $filters = [])
+    {
+        $query = $this->model->query();
+
+        foreach ($filters as $key => $value) {
+            $query->where($key, $value);
+        }
+
+        return $query->paginate($perPage);
+    }
 }
