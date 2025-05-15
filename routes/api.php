@@ -18,6 +18,7 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth:api')->group(function (){
+    Route::get('/me', [AuthController::class, 'me']);
     Route::prefix('profile')->group(function () {
         Route::get('/show', [ProfileController::class, 'show']);
         Route::post('/update', [ProfileController::class, 'update']);

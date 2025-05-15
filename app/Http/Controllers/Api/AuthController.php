@@ -43,4 +43,15 @@ class AuthController extends Controller
             'message' => 'Çıkış başarılı.',
         ]);
     }
+
+    public function me(): JsonResponse
+    {
+        $user = $this->authService->me();
+
+        return response()->json([
+            'message' => 'Kullanıcı doğrulandı.',
+            'user' => $user,
+        ]);
+    }
+
 }
