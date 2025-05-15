@@ -30,7 +30,7 @@ class ProfileUpdateRequest extends FormRequest
             'email' => 'required|email|ends_with:@firat.edu.tr|unique:users,email,'.Auth::id(),
             'faculty' => 'required|string|max:255',
             'department' => 'required|string|max:255',
-            'class' => 'required|integer|between:1,6',
+            'class' => 'required|string|in:1,2,3,4,5,6,Hazırlık,Yüksek Lisans',
             'birth_date' => 'required|date|before:today',
         ];
     }
