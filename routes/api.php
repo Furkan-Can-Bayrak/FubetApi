@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\Front\HomeController;
+use App\Http\Controllers\Api\Front\ProfileController;
 use App\Http\Controllers\Api\Panel\CategoryController;
 use App\Http\Controllers\Api\Panel\EventController;
 use App\Http\Controllers\Api\Front\EventController as EventControllerFront;
@@ -15,6 +16,16 @@ Route::middleware('guest')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/register', [AuthController::class, 'register']);
 });
+
+Route::middleware('auth:api')->group(function (){
+    Route::prefix('profile')->group(function () {
+        Route::get('/show', [ProfileController::class, 'show']);
+        Route::post('/update', [ProfileController::class, 'update']);
+    });
+});
+
+
+
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:api');
 
 Route::get('/paginateEvents', [EventControllerFront::class, 'paginateEvents']);
