@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Auth;
 
+use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Hash;
 
@@ -30,8 +31,9 @@ class RegisterRequest extends FormRequest
             'email' => 'required|email|ends_with:@firat.edu.tr|unique:users,email',
             'faculty' => 'required|string|max:255',
             'department' => 'required|string|max:255',
-            'class' => 'required|integer|between:1,6',
+            'class' => 'required|string|in:1,2,3,4,5,6,Hazırlık,Yüksek Lisans',
             'birth_date' => 'required|date|before:today',
+            'email_verified_at' => 'nullable|date',
             'password' => 'required|string|confirmed',
         ];
     }
@@ -61,6 +63,14 @@ class RegisterRequest extends FormRequest
         }
 
         return $validatedData;
+    }
+
+
+    public function prepareForValidation()
+    {
+        $this->merge([
+            'email_verified_at' => null,
+        ]);
     }
 
 }

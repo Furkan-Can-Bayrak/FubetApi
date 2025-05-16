@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -10,7 +11,7 @@ use MongoDB\Laravel\Eloquent\Model; // MongoDB'yi kullanabilmek için
 use MongoDB\Laravel\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable implements JWTSubject
+class User extends Authenticatable implements JWTSubject,MustVerifyEmail
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasApiTokens, HasFactory, Notifiable;
@@ -34,6 +35,7 @@ class User extends Authenticatable implements JWTSubject
         'class',
         'birth_date',
         'password',
+        'email_verified_at',
     ];
 
     /**
@@ -68,6 +70,24 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
+
+    public function hasVerifiedEmail(): bool
+    {
+        return ! is_null($this->email_verified_at);
+    }
+
+    public function markEmailAsVerified(): bool
+    {
+        return $this->forceFill([
+            'email_verified_at' => now(),
+        ])->save();
+    }
+
+    public function sendEmailVerificationNotification(): void
+    {
+        $this->notify(new \App\Notifications\VerifyEmail); // Eğer özel notification yazdıysan
+    }
+
 
     public function eventApplications()
     {
