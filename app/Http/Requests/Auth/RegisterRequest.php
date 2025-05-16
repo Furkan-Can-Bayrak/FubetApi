@@ -32,6 +32,7 @@ class RegisterRequest extends FormRequest
             'faculty' => 'required|string|max:255',
             'department' => 'required|string|max:255',
             'class' => 'required|string|in:1,2,3,4,5,6,Hazırlık,Yüksek Lisans',
+            'role' => 'required|string|in:Öğrenci,Yönetici,Danışman',
             'birth_date' => 'required|date|before:today',
             'email_verified_at' => 'nullable|date',
             'password' => 'required|string|confirmed',
@@ -70,6 +71,7 @@ class RegisterRequest extends FormRequest
     {
         $this->merge([
             'email_verified_at' => null,
+            'role' => 'Öğrenci',
         ]);
     }
 
