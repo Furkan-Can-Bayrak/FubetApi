@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\Front\EventController as EventControllerFront;
 use App\Http\Controllers\Api\UserController;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 
 
@@ -30,7 +31,7 @@ Route::get('/email/verify/{id}/{hash}', function (Request $request, $id, $hash) 
     // Doğrulama işlemi
     $user->markEmailAsVerified();
 
-    return response()->json(['message' => 'E-posta başarıyla doğrulandı.'], 200);
+    return Redirect::to('http://192.168.56.1:3000/');
 })->middleware(['signed'])->name('verification.verify');
 
 Route::middleware(['auth:api','verified.api'])->group(function (){

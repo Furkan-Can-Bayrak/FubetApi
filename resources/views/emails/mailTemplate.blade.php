@@ -61,7 +61,7 @@
 <body>
 <div class="email-container">
     <div class="header">
-        <img src="{{ asset('logo/logo.png') }}" alt="Logo">
+        <img src="https://fubet.firat.edu.tr/subdomain_files/fubet.firat.edu.tr/photos/2753/FIRAT%20%C3%9CN%C4%B0VERS%C4%B0TES%C4%B0%20B%C4%B0L%C4%B0%C5%9E%C4%B0M%20VE%20E%C4%9E%C4%B0T%C4%B0M%20TOPLULU%C4%9Eu%20logo.png" alt="Logo">
     </div>
 
     <h2>{{ $greeting }}</h2>
