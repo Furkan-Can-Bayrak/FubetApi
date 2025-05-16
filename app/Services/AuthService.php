@@ -33,7 +33,7 @@ class AuthService
     public function register(array $data): array
     {
         $user = $this->repo->create($data);
-
+        $user->sendEmailVerificationNotification();
         $token = JWTAuth::fromUser($user);
 
         return [

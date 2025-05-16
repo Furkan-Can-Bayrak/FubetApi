@@ -3,9 +3,13 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Jobs\SendCustomMailJob;
+use App\Notifications\SendCustomMail;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\URL;
 use Laravel\Sanctum\HasApiTokens;
 use MongoDB\Laravel\Eloquent\Model; // MongoDB'yi kullanabilmek için
 use MongoDB\Laravel\Auth\User as Authenticatable;
@@ -85,7 +89,24 @@ class User extends Authenticatable implements JWTSubject,MustVerifyEmail
 
     public function sendEmailVerificationNotification(): void
     {
-        $this->notify(new \App\Notifications\VerifyEmail); // Eğer özel notification yazdıysan
+        $verificationUrl = URL::temporarySignedRoute(
+            name: 'verification.verify', // rotanın ismi
+            expiration: Carbon::now()->addMinutes(60),
+            parameters: [
+                'id' => $this->getKey(),
+                'hash' => sha1($this->getEmailForVerification()),
+            ]
+        );
+        $mailDetails = [
+            'subject' => 'Öğrenci Kulübümüze Hoş Geldiniz! E-posta Doğrulaması Gerekiyor',
+            'greeting' => 'Merhaba ' . $this->name . ' ' . $this->surname . ',',
+            'content' => 'Öğrenci kulübümüze katıldığınız için çok mutluyuz! Birlikte harika etkinlikler ve projeler gerçekleştireceğiz. ' .
+                'Üyeliğinizi tamamlamak için lütfen e-posta adresinizi doğrulayın. Böylece size özel duyurulardan ve fırsatlardan haberdar olabilirsiniz.',
+            'buttonText' => 'E-postamı Doğrula',
+            'buttonUrl' => $verificationUrl,
+        ];
+        $this->notify(new SendCustomMail($mailDetails));
+       // dispatch(new SendCustomMailJob($this, $mailDetails));
     }
 
 

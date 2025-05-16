@@ -54,4 +54,17 @@ class AuthController extends Controller
         ]);
     }
 
+    public function resend(Request $request)
+    {
+        $user = $request->user();
+
+        if ($user->hasVerifiedEmail()) {
+            return response()->json(['message' => 'E-posta zaten doğrulanmış.'], 400);
+        }
+
+        // Mail gönderme işlemi (Laravel Notification veya kendi job dispatch)
+        $user->sendEmailVerificationNotification();
+
+        return response()->json(['message' => 'Doğrulama maili tekrar gönderildi.']);
+    }
 }
