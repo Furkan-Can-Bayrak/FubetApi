@@ -15,24 +15,15 @@ use Illuminate\Support\Facades\Route;
 
 
 
+Route::get('/deneme', [\App\Http\Controllers\Api\Front\EventSuggestionController::class, 'deneme']);
+
+
 Route::middleware('guest')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/register', [AuthController::class, 'register']);
 });
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:api');
 
-Route::get('/email/verify/{id}/{hash}', function (Request $request, $id, $hash) {
-    $user = User::findOrFail($id);
-
-    // Hash doğrulaması: e-posta adresiyle hash uyuşuyor mu?
-    if (! hash_equals((string) $hash, sha1($user->getEmailForVerification()))) {
-        return response()->json(['message' => 'Doğrulama linki geçersiz.'], 403);
-    }
-
-    // Doğrulama işlemi
-    $user->markEmailAsVerified();
-
-    return Redirect::to('http://192.168.56.1:3000/');
-})->middleware(['signed'])->name('verification.verify');
 
 Route::middleware(['auth:api','verified.api'])->group(function (){
     Route::get('/isMailValidated', [EmailVerificationController::class, 'isMailValidate']);
@@ -41,19 +32,27 @@ Route::middleware(['auth:api','verified.api'])->group(function (){
         Route::post('/update', [ProfileController::class, 'update']);
     });
 });
+Route::prefix('mail')->group(function (){
+    Route::get('/verify/{id}/{hash}', function (Request $request, $id, $hash) {
+        $user = User::findOrFail($id);
 
-Route::post('/mail/resend', [EmailVerificationController::class, 'resend'])->middleware('auth:api');
+        // Hash doğrulaması: e-posta adresiyle hash uyuşuyor mu?
+        if (! hash_equals((string) $hash, sha1($user->getEmailForVerification()))) {
+            return response()->json(['message' => 'Doğrulama linki geçersiz.'], 403);
+        }
+
+        // Doğrulama işlemi
+        $user->markEmailAsVerified();
+
+        return Redirect::to(env('BASE_FRONT_URL'));
+    })->middleware(['signed'])->name('verification.verify');
+    Route::post('/resend', [EmailVerificationController::class, 'resend'])->middleware('auth:api');
+
+});
 Route::get('/me', [AuthController::class, 'me'])->middleware('auth:api');
 
 
-
-Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:api');
-
 Route::get('/paginateEvents', [EventControllerFront::class, 'paginateEvents']);
-
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
 
 
 Route::group(['prefix' => 'panel'],function (){
